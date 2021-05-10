@@ -7,12 +7,9 @@ import (
 )
 
 var frogFacts = []string{
-	"There are over 5,000 species of frog",
-	"Frogs don’t need to drink water as they absorb it through their skin",
-	"A frog’s call is unique to its species, and some frog calls can be heard up to a mile away",
-	"Some frogs can jump over 20 times their own body length; that is like a human jumping 30m",
-	"Due to their permeable skin, typically biphastic life (aquatic larvae and terrestrial adults), and mid-position in the food web frogs and other amphibians are excellent biological indicators of the wider health of ecosystems",
-	"In Egypt the frog is the symbol of life and fertility, and in Egyptian mythology Heget is a frog-goddess who represents fertility",
+	"Turtles are better than frogs in every way.",
+        "Frogs are slimy and nobody likes them.",
+        "Frogs can jump, so what? so can fleas and they are a parasite.",
 }
 
 func main() {
