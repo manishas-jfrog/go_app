@@ -5,29 +5,29 @@ resources:
   - name: app_repo
     type: GitRepo
     configuration:
-      gitProvider: {{ .Values.gitProvider }}                      # <-- replace with your integration
-      path: {{ .Values.repoPath }}    # <-- replace with your repository name
+      gitProvider: {{ .Values.gitIntegration }}                      # <-- replace with your integration
+      path: {{ .Values.gitRepositoryPath }}    # <-- replace with your repository name
       branches:
         include: master
 
-  - name: app_docker_image
+  - name: app_image
     type: Image
     configuration:
-      registry: {{ .Values.artifactory }}                                # <-- replace with your artifactory integration
+      registry: {{ .Values.artifactoryIntegration }}                                # <-- replace with your artifactory integration
       sourceRepository: {{ .Values.sourceRepository }}               # <-- required if registry is Artifactory
-      imageName: {{ .Values.imageName }}  # < -- replace with your image path and name
+      imageName: {{ .Values.artifactoryUrl }}.{{ .Values.sourceRepository }}/{{ .Values.imageName }}  # < -- replace with your image path and name
       imageTag: latest
       autoPull: true
 
   - name: app_buildinfo
     type: BuildInfo
     configuration:
-      sourceArtifactory: {{ .Values.artifactory }}
+      sourceArtifactory: {{ .Values.artifactoryIntegration }}
 
   - name: app_promoted_buildinfo
     type: BuildInfo
     configuration:
-      sourceArtifactory: {{ .Values.artifactory }}
+      sourceArtifactory: {{ .Values.artifactoryIntegration }}
 
 pipelines:
   - name: app_dev_pipeline_su204
@@ -43,7 +43,7 @@ pipelines:
           inputResources:
             - name: app_repo
           integrations:
-            - name: {{ .Values.artifactory }}                            # <-- replace with your artifactory integration
+            - name: {{ .Values.artifactoryIntegration }}                            # <-- replace with your artifactory integration
 
       - name: app_push
         type: DockerPush
@@ -51,11 +51,11 @@ pipelines:
           affinityGroup: docker_group
           targetRepository: {{ .Values.sourceRepository }}
           integrations:
-            - name: {{ .Values.artifactory }}                            # <-- replace with your artifactory integration
+            - name: {{ .Values.artifactoryIntegration }}                            # <-- replace with your artifactory integration
           inputSteps:
             - name: app_build
           outputResources:
-            - name: app_docker_image
+            - name: app_image
 
       - name: publish_app_build
         type: PublishBuildInfo
@@ -85,17 +85,17 @@ pipelines:
         type: Bash
         configuration:
           integrations:
-            - name: {{ .Values.artifactory }}
+            - name: {{ .Values.artifactoryIntegration }}
           inputResources:
             - name: app_promoted_buildinfo
-            - name: app_docker_image
+            - name: app_image
               trigger: false
         execution:
           onStart:
-            - jfrog rt docker-pull $res_app_docker_image_imageName:$res_app_docker_image_imageTag {{ .Values.prodRepository }}
+            - jfrog rt docker-pull {{ .Values.artifactoryUrl }}.{{ .Values.prodRepository }}/{{ .Values.imageName }}:$res_app_image_imageTag {{ .Values.prodRepository }}
             #- jfrog rt dl prod-go-local/app
             #- ls -latr
           onExecute:
-            - docker run $res_app_docker_image_imageName:$res_app_docker_image_imageTag
+            - docker run {{ .Values.artifactoryUrl }}.{{ .Values.prodRepository }}/{{ .Values.imageName }}:$res_app_image_imageTag
             #- chmod +x app
             #- ./app
