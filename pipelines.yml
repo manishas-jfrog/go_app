@@ -10,7 +10,7 @@ resources:
       branches:
         include: master
 
-  - name: app_image
+  - name: app_docker_image
     type: Image
     configuration:
       registry: {{ .Values.artifactory }}                                # <-- replace with your artifactory integration
@@ -55,7 +55,7 @@ pipelines:
           inputSteps:
             - name: app_build
           outputResources:
-            - name: app_image
+            - name: app_docker_image
 
       - name: publish_app_build
         type: PublishBuildInfo
@@ -88,14 +88,14 @@ pipelines:
             - name: {{ .Values.artifactory }}
           inputResources:
             - name: app_promoted_buildinfo
-            - name: app_image
+            - name: app_docker_image
               trigger: false
         execution:
           onStart:
-            - jfrog rt docker-pull $res_app_image_imageName:$res_app_image_imageTag {{ .Values.prodRepository }}
+            - jfrog rt docker-pull $res_app_docker_image_imageName:$res_app_docker_image_imageTag {{ .Values.prodRepository }}
             #- jfrog rt dl prod-go-local/app
             #- ls -latr
           onExecute:
-            - docker run $res_app_image_imageName:$res_app_image_imageTag
+            - docker run $res_app_docker_image_imageName:$res_app_docker_image_imageTag
             #- chmod +x app
             #- ./app
