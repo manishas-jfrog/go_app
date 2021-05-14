@@ -1,7 +1,7 @@
 gitIntegration: github_int
 gitRepositoryPath: manishas-jfrog/go_app
 artifactoryIntegration: artifactory_int
-imageName: app_image
+imageName: app_docker_image
 artifactoryUrl: swampup204.jfrog.io
 sourceRepository: su204-docker-staging-local
 prodRepository: su204-docker-prod-local
