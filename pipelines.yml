@@ -38,7 +38,7 @@ pipelines:
           affinityGroup: docker_group
           dockerFileLocation: .
           dockerFileName: Dockerfile
-          dockerImageName: {{ .Values.imageName }}  # replace with your image path and name
+          dockerImageName: {{ .Values.artifactoryUrl }}/{{ .Values.sourceRepository }}/{{ .Values.imageName }}  # replace with your image path and name
           dockerImageTag: ${run_number}
           inputResources:
             - name: app_repo
