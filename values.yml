@@ -1,6 +1,6 @@
 gitProvider: github_int
 repoPath: manishas-jfrog/go_app
-imageName: demo.jfrog-pipelines.com/app_image
+imageName: swampup204.jfrog.io/app_image
 artifactory: artifactory_int
 sourceRepository: su204-docker-staging-local
 prodRepository: su204-docker-prod-local
