@@ -17,7 +17,7 @@ resources:
       sourceRepository: {{ .Values.sourceRepository }}               # <-- required if registry is Artifactory
       imageName: {{ .Values.artifactoryUrl }}/{{ .Values.sourceRepository }}/{{ .Values.imageName }}  # < -- replace with your image path and name
       imageTag: latest
-      autoPull: true
+      autoPull: false
 
   - name: app_buildinfo
     type: BuildInfo
