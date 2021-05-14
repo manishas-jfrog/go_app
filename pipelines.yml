@@ -86,7 +86,6 @@ pipelines:
             - name: {{ .Values.artifactoryIntegration }}
           inputResources:
             - name: app_promoted_buildinfo
-              trigger: false
         execution:
           onStart:
             - jfrog rt docker-pull {{ .Values.artifactoryUrl }}/{{ .Values.prodRepository }}/{{ .Values.imageName }}:$res_app_promoted_buildinfo_buildNumber {{ .Values.prodRepository }}
