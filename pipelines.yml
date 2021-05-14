@@ -96,6 +96,6 @@ pipelines:
             #- jfrog rt dl prod-go-local/app
             #- ls -latr
           onExecute:
-            - docker run {{ .Values.artifactoryUrl }}.{{ .Values.prodRepository }}/{{ .Values.imageName }}:$res_app_img_imageTag
+            - docker run {{ .Values.artifactoryUrl }}/{{ .Values.prodRepository }}/{{ .Values.imageName }}:$res_app_img_imageTag
             #- chmod +x app
             #- ./app
