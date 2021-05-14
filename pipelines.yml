@@ -30,7 +30,7 @@ resources:
       sourceArtifactory: {{ .Values.artifactory }}
 
 pipelines:
-  - name: app_dev_pipeline
+  - name: app_dev_pipeline_su204
     steps:
       - name: app_build
         type: DockerBuild
@@ -66,7 +66,7 @@ pipelines:
           outputResources:
             - name: app_buildinfo
 
-  - name: app_prod_pipeline
+  - name: app_prod_pipeline_su204
     steps:
       - name: app_promote_build
         type: PromoteBuild
